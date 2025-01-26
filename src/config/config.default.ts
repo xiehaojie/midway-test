@@ -18,7 +18,7 @@ export default {
     },
   },
   staticFile: {
-    prefix: '/ddd',
+    prefix: '/',
     dir: path.join(__dirname, '../../public'),
     maxAge: 31536000,
     buffer: true,

@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <title>Document</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin:0;
+            padding: 0
+        }
+    </style>
 </head>
-
 <body>
-  <div id="container" style="height: <%= chartHeight %>px; width: <%= chartWidth %>px;"></div>
-  <script src="/charts/echarts<%=version%>.min.js"></script>
-  <script src="/charts/china.js"></script>
-  <script type="text/javascript">
+<div id="container" style="height: <%=chartHeight%>px; width: <%=chartWidth%>px;">嘻哈家</div>
+<script src="http://locahost:7001/charts/echarts<%=version%>.min.js"></script>
+<script src="http://locahost:7001/charts/china.js"></script>
+<script type="text/javascript">
 
-    let chartConfig = <% - chartConfigStr %>
+    var chartConfig = <%- chartConfigStr %>;
     chartConfig.animation = false;
     // 基于准备好的dom，初始化echarts实例
-    let myChart = echarts.init(document.getElementById('container'));
+    var myChart = echarts.init(document.getElementById('container'));
 
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(chartConfig);
 
-  </script>
+</script>
 </body>
-
 </html>

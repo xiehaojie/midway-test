@@ -1,65 +1,82 @@
 // src/service/renderEharts.service.ts
-import { Inject, Provide, makeHttpRequest } from '@midwayjs/core';
-import { WeatherInfo } from '../interface';
+import { Inject, Provide } from '@midwayjs/core';
 import { Context } from '@midwayjs/koa';
-import { WeatherEmptyDataError } from '../error/weather.error';
 import * as Default_options from '../../public/js/defaultOptions.js';
 @Provide()
 export class RenderEchartsService {
   @Inject()
   ctx: Context;
+  // 注入puppeteer
   @Inject('puppeteer')
   puppeteerTool;
+  // 注入lodash
   @Inject('lodash')
   _;
-  async getWeather(cityId: string): Promise<WeatherInfo> {
-    if (!cityId) {
-      throw new WeatherEmptyDataError();
-    }
-    try {
-      const result = await makeHttpRequest<WeatherInfo>(
-        `https://midwayjs.org/resource/${cityId}.json`,
-        {
-          dataType: 'json',
-        }
-      );
-      if (result.status === 200) {
-        return result.data as WeatherInfo;
-      } else {
-        throw new WeatherEmptyDataError();
-      }
-    } catch (error) {
-      throw new WeatherEmptyDataError();
-    }
-  }
   /**
    * 使用Puppeteer进行测试的异步函数
    * @returns 返回页面标题的Promise
    */
-  async testPuppeteer(chartsConfig: any): Promise<string> {
-    const weatherData = await this.getWeather('101010100');
-    // console.log(chartsConfig);
+  async generateEcharts(chartsConfig: any): Promise<string> {
+    // // 图表配置
     // let chartConfig = chartsConfig.chartConfig;
     // let chartWidth = Number(chartsConfig.width);
     // let chartHeight = Number(chartsConfig.height);
     // let version = Number(chartsConfig.version) || 5;
     // //  模版类型
-    // let tempType = chartsConfig.tempType;
+    // const tempType = chartsConfig.tempType;
 
     // // 整合内置options
     // const defaultOpt = Default_options[tempType];
 
-    // if( defaultOpt ){
-    //   chartConfig = _.merge({}, defaultOpt, chartConfig);
+    // if (defaultOpt) {
+    //   chartConfig = this._.merge({}, defaultOpt, chartConfig);
     // }
-    // 渲染到body上
-    await this.ctx.render('info.njk', weatherData.weatherinfo);
+    // // 动态设置柱状图是否展示label
+    // const isShowLabel = Number(chartsConfig.showLable);
+    // if (tempType.includes('bar')) {
+    //   chartConfig.series = chartConfig.series.map(serie => {
+    //     const newSerics = this._.merge({}, serie, {
+    //       label: {
+    //         show: !!isShowLabel,
+    //       },
+    //     });
+    //     return newSerics;
+    //   });
+    // }
+    // // 动态设置地图的max
+    // if (tempType === 'map') {
+    //   const valueData = chartConfig.series[0].data.map(a => {
+    //     return a.value;
+    //   });
+    //   const maxData = valueData.reduce((a, b) => {
+    //     return Math.max(a, b);
+    //   });
+    //   const minData = valueData.reduce((a, b) => {
+    //     return Math.min(a, b);
+    //   });
+
+    //   chartConfig.visualMap.max = maxData || 100000;
+    //   chartConfig.visualMap.min = minData || 0;
+    // }
+
+    // chartWidth = chartWidth || 800;
+    // chartHeight = chartHeight || 400;
+    // version = version || 5;
+    // // 渲染到body上
+    // await this.ctx.render('echarts.ejs', {
+    //   chartConfigStr: JSON.stringify(chartConfig),
+    //   chartWidth,
+    //   chartHeight,
+    //   version,
+    // });
+    await this.getEchartsConfig(chartsConfig);
     // 启动Puppeteer浏览器实例
     const browser = await this.puppeteerTool.launch({ headless: true });
     // 创建一个新的页面
     const page = await browser.newPage();
     // 页面直接渲染body上的内容，并等待无请求后
-    await page.setContent(this.ctx.body);
+    await page.goto('http://localhost:7001/getEchartsHtml');
+    // await page.reload();
     // 截图，返回base64编码
     const imgBase64 = await page
       .screenshot({ encoding: 'base64', fullPage: true })
@@ -70,5 +87,60 @@ export class RenderEchartsService {
     await browser.close();
     // 返回页面标题
     return imgBase64;
+  }
+
+  async getEchartsConfig(chartsConfig: any): Promise<void> {
+    // 图表配置
+    let chartConfig = chartsConfig.chartConfig;
+    let chartWidth = Number(chartsConfig.width);
+    let chartHeight = Number(chartsConfig.height);
+    let version = Number(chartsConfig.version) || 5;
+    //  模版类型
+    const tempType = chartsConfig.tempType;
+
+    // 整合内置options
+    const defaultOpt = Default_options[tempType];
+
+    if (defaultOpt) {
+      chartConfig = this._.merge({}, defaultOpt, chartConfig);
+    }
+    // 动态设置柱状图是否展示label
+    const isShowLabel = Number(chartsConfig.showLable);
+    if (tempType.includes('bar')) {
+      chartConfig.series = chartConfig.series.map(serie => {
+        const newSerics = this._.merge({}, serie, {
+          label: {
+            show: !!isShowLabel,
+          },
+        });
+        return newSerics;
+      });
+    }
+    // 动态设置地图的max
+    if (tempType === 'map') {
+      const valueData = chartConfig.series[0].data.map(a => {
+        return a.value;
+      });
+      const maxData = valueData.reduce((a, b) => {
+        return Math.max(a, b);
+      });
+      const minData = valueData.reduce((a, b) => {
+        return Math.min(a, b);
+      });
+
+      chartConfig.visualMap.max = maxData || 100000;
+      chartConfig.visualMap.min = minData || 0;
+    }
+
+    chartWidth = chartWidth || 800;
+    chartHeight = chartHeight || 400;
+    version = version || 5;
+
+    this.ctx.echartsConfig = {
+      chartConfigStr: JSON.stringify(chartConfig),
+      chartWidth,
+      chartHeight,
+      version,
+    };
   }
 }
