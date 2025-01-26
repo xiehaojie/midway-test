@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin:0;
+            padding: 0
+        }
+    </style>
+</head>
+<body>
+<div id="container" style="height: <%=chartHeight%>px; width: <%=chartWidth%>px;"></div>
+<script src="/charts/wordcloud2.js"></script>
+<script type="text/javascript">
+    var chartConfig = <%- chartConfigStr %>;
+    // 基于准备好的dom，初始化echarts实例
+    WordCloud(document.getElementById('container'), chartConfig );
+</script>
+</body>
+</html>

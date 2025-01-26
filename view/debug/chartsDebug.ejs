@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>echarts在线调试</title>
+  <style>
+    body{
+      color: #333;
+    }
+    #app{
+      padding: 0 40px;
+    }
+    h1{
+      text-align: center;
+    }
+    #form{
+      border: 1px solid #eee;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    label{
+      display: inline-block;
+      margin-bottom: 4px;
+      margin-right: 10px;
+    }
+    input[type='number']{
+      width: 80px;
+      height: 28px;
+      border-radius: 4px;
+      outline: none;
+      border: 1px solid #ccc;
+      padding: 0 10px;
+    }
+    select{
+      height: 28px;
+      width: 150px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+    }
+    option{
+      height: 24px;
+      line-height: 24px;
+    }
+    button{
+      height: 30px;
+      width: 100px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover{
+      border:1px solid  darkcyan;
+      color: darkcyan;
+      outline: none;
+    }
+    #content{
+      display: flex;
+      flex-direction: row;
+    }
+    #content #left{
+      width: calc(100% - 60% - 20px);
+      margin-right: 20px;
+    }
+    #content textarea{
+      max-width: 100%;
+      width: 100%;
+      height: 500px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      box-sizing: border-box;
+      outline: none;
+    }
+    #content #right{
+      width: 60%;
+      border: 1px solid #ccc;
+    }
+    #content #right::before{
+      content: "图表预览区";
+      color: #ccc;
+      font-size: 30px;
+      text-align: center;
+      width: 100%;
+      display: block;
+    }
+    #format{
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1>echarts在线调试</h1>
+    <div id="form">
+      <!-- <label v-show="type != 'wordcloud'">echarts版本:
+        <select v-model="version">
+          <option value="3">echarts3</option>
+          <option value="5">echarts5</option>
+        </select>
+      </label> -->
+      <label>类型:
+        <select v-model="tempType">
+          <option value="pie1">饼图-基础（pie1）</option>
+          <option value="pie2">饼图-圆环（pie2）</option>
+          <option value="bar1">柱状图1-纵向（bar1）</option>
+          <option value="bar2">柱状图2-横向（bar2）</option>
+          <option value="line">折线图（line）</option>
+          <option value="sankey">桑基图（sankey）</option>
+          <option value="treemap">矩形树图（treemap）</option>
+          <option value="map">中国地图(map)</option>
+          <!-- <option value="wordcloud">词云图</option>
+          <option value="">其他</option> -->
+        </select>
+      </label>
+      <label>是否展示label:
+        <select v-model="showLable">
+          <option value="1">是</option>
+          <option value="0">否</option>
+        </select>
+      </label>
+      <label>宽度(px):
+        <input type="number" v-model="width" />
+      </label>
+      <label>高度(px):
+        <input type="number" v-model="height" />
+      </label>
+      <button id="submit" @click="generateImg">生成图片</button>
+      <br>
+      <!-- <a v-show="version==5" target="_blank" href="https://echarts.apache.org/zh/index.html"> 查看文档</a>
+      <a v-show="type==wordcloud" target="_blank" href="https://github.com/timdream/wordcloud2.js/blob/gh-pages/API.md"> 查看文档</a> -->
+    </div>
+    <div id="content">
+      <div id="left">
+        <button id="format" @click="formatJSON">JSON格式化</button>
+        <textarea v-model="chartConfig"></textarea>
+      </div>
+      <div id="right">
+        <img :src="imageBase64">
+      </div>
+    </div>
+  </div>
+  <script src="/ddd/js/vue.global.js"></script>
+  <script src="/ddd/js/axios.min.js"></script>
+  <script src="/ddd/js/fmt2json.min.js"></script>
+  <script src="/ddd/js/chartsDebug.js"></script>
+</body>
+
+</html>

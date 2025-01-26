@@ -12,6 +12,10 @@
   }
   .logo {
     margin-top: 50px;
+    img{
+      width: 1920px;
+      height: 1080px;
+    }
   }
   .logo h1 {
     font-size: 200px;
@@ -45,13 +49,7 @@
 <body>
   <div class="wrap">
     <div class="logo">
-      <h1>{{errorStatus}}</h1>
-      <p>{{errorMessage}}</p>
-      {# <div class="sub">
-        <p>
-          <a href="/">Back</a>
-        </p>
-      </div> #}
+      <img src="<% - imgBase64 %>"/>
     </div>
   </div>
 </body>

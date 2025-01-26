@@ -2,9 +2,11 @@ import { Configuration, App, IMidwayContainer } from '@midwayjs/core';
 import * as koa from '@midwayjs/koa';
 import * as validate from '@midwayjs/validate';
 import * as info from '@midwayjs/info';
-import * as view from '@midwayjs/view-nunjucks';
+// import * as view from '@midwayjs/view-nunjucks';
+import * as view from '@midwayjs/view-ejs';
 import * as staticFile from '@midwayjs/static-file';
 import * as puppeteer from 'puppeteer';
+import * as lodash from 'lodash';
 import { join } from 'path';
 // import { DefaultErrorFilter } from './filter/default.filter';
 // import { NotFoundFilter } from './filter/notfound.filter';
@@ -34,8 +36,9 @@ export class MainConfiguration {
     // add filter
     // this.app.useFilter([NotFoundFilter, DefaultErrorFilter]);
     this.app.useFilter([WeatherEmptyDataErrorFilter]);
-
-    // 注册poppeteer
+    //全局注册poppeteer，无需每次调用时引入。
     applicationContext.registerObject('puppeteer', puppeteer);
+    //全局注册lodash，无需每次调用时引入。
+    applicationContext.registerObject('lodash', lodash);
   }
 }
