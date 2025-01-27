@@ -2,7 +2,6 @@ import { Configuration, App, IMidwayContainer } from '@midwayjs/core';
 import * as koa from '@midwayjs/koa';
 import * as validate from '@midwayjs/validate';
 import * as info from '@midwayjs/info';
-// import * as view from '@midwayjs/view-nunjucks';
 import * as view from '@midwayjs/view-ejs';
 import * as staticFile from '@midwayjs/static-file';
 import * as puppeteer from 'puppeteer';

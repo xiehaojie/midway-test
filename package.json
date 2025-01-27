@@ -12,7 +12,6 @@
     "@midwayjs/static-file": "3",
     "@midwayjs/validate": "^3.12.0",
     "@midwayjs/view-ejs": "3",
-    "@midwayjs/view-nunjucks": "^3.20.0",
     "lodash": "^4.17.21",
     "puppeteer": "^24.1.0"
   },
@@ -34,6 +33,7 @@
     "start": "NODE_ENV=production node ./bootstrap.js",
     "dev": "cross-env NODE_ENV=local mwtsc --watch --run @midwayjs/mock/app.js",
     "dev:custom": "mwtsc --watch --run ./bootstrap.js",
+    "pm2:start": "pm2 start ./bootstrap.js --name=render-echarts",
     "test": "cross-env NODE_ENV=unittest jest",
     "cov": "jest --coverage",
     "lint": "mwts check",

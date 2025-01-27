@@ -21,14 +21,4 @@ export class WeatherController {
       await this.ctx.render('info.njk', result.weatherinfo);
     }
   }
-  @ContentType('application/json')
-  @Get('/getWeatherPage')
-  async screenShotWeatherInfoPage(): Promise<string> {
-    const imgBase64 = await this.weatherService.testPuppeteer();
-    // return this.ctx.render('imgShow.njk', {
-    //   imgBase64,
-    // });
-    // console.log('imgBase64: ', imgBase64);
-    return imgBase64;
-  }
 }
