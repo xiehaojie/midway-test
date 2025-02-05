@@ -11,6 +11,7 @@ import { join } from 'path';
 // import { NotFoundFilter } from './filter/notfound.filter';
 import { ReportMiddleware } from './middleware/report.middleware';
 import { WeatherEmptyDataErrorFilter } from './filter/weather.filter';
+import { ValidateErrorFilter } from './filter/validate.filter';
 
 @Configuration({
   imports: [
@@ -34,7 +35,7 @@ export class MainConfiguration {
     this.app.useMiddleware([ReportMiddleware]);
     // add filter
     // this.app.useFilter([NotFoundFilter, DefaultErrorFilter]);
-    this.app.useFilter([WeatherEmptyDataErrorFilter]);
+    this.app.useFilter([WeatherEmptyDataErrorFilter,ValidateErrorFilter]);
     //全局注册poppeteer，无需每次调用时引入。
     applicationContext.registerObject('puppeteer', puppeteer);
     //全局注册lodash，无需每次调用时引入。

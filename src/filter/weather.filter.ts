@@ -9,7 +9,7 @@ export class WeatherEmptyDataErrorFilter {
   async catch(err: MidwayHttpError, ctx: Context) {
     // ...
 
-    return ctx.render('error.njk', {
+    return ctx.render('error.ejs', {
       errorStatus: err.status,
       errorMessage: err.message,
     });
