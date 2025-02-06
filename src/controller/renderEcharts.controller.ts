@@ -10,9 +10,6 @@ export class RenderEchartsController {
   renderEchartsService: RenderEchartsService;
   @Post('/echarts')
   async getEcharts(@Body() chartsConfig: ChartsConfigDTO): Promise<string> {
-    return await this.renderEchartsService.generateEcharts(
-      this.ctx,
-      chartsConfig
-    );
+    return await this.renderEchartsService.generateEcharts(chartsConfig);
   }
 }

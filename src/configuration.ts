@@ -35,7 +35,7 @@ export class MainConfiguration {
     this.app.useMiddleware([ReportMiddleware]);
     // add filter
     // this.app.useFilter([NotFoundFilter, DefaultErrorFilter]);
-    this.app.useFilter([WeatherEmptyDataErrorFilter,ValidateErrorFilter]);
+    this.app.useFilter([WeatherEmptyDataErrorFilter, ValidateErrorFilter]);
     //全局注册poppeteer，无需每次调用时引入。
     applicationContext.registerObject('puppeteer', puppeteer);
     //全局注册lodash，无需每次调用时引入。

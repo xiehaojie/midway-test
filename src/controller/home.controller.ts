@@ -6,7 +6,7 @@ export class HomeController {
   ctx: Context;
   @Get('/')
   async home(): Promise<string> {
+    // 返回调试页面，便于调试。
     return await this.ctx.render('chartsDebug.ejs');
-    // return 'Hello Midwayjs!';
   }
 }
