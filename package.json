@@ -1,5 +1,5 @@
 {
-  "name": "my-midway-project",
+  "name": "render-echarts",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -33,13 +33,14 @@
     "start": "NODE_ENV=production node ./bootstrap.js",
     "dev": "cross-env NODE_ENV=local mwtsc --watch --run @midwayjs/mock/app.js",
     "dev:custom": "mwtsc --watch --run ./bootstrap.js",
-    "pm2:start": "pm2 start ./bootstrap.js --name=render-echarts",
+    "pm2:start": "pm2 start ./bootstrap.js --name=render-echarts -i 5",
     "test": "cross-env NODE_ENV=unittest jest",
     "cov": "jest --coverage",
     "lint": "mwts check",
     "lint:fix": "mwts fix",
     "ci": "npm run cov",
-    "build": "mwtsc --cleanOutDir"
+    "build": "mwtsc --cleanOutDir",
+    "pm2:log": "pm2 logs render-echarts"
   },
   "repository": {
     "type": "git",
