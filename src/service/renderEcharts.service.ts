@@ -2,7 +2,7 @@
 import { Inject, Provide } from '@midwayjs/core';
 import { Context } from '@midwayjs/koa';
 import * as Default_options from '../../public/js/defaultOptions.js';
-import { PuppeteerService } from './puppeteer.service';
+import { PuppeteerService } from '../provider/puppeteer.js';
 @Provide()
 export class RenderEchartsService {
   // 注入PuppeteerService
